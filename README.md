@@ -1,39 +1,17 @@
 # grid-research
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue3 에서 사용할 그리드 컴포넌트 적용 & 판단하기
 
-## Recommended IDE Setup
+## 대상 컴포넌트
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+* **Tabulator**
+  * https://tabulator.info/
+  * npm install tabulator-tables --save
+  * https://tabulator.info/docs/6.3
 
-## Type Support for `.vue` Imports in TS
+* **AG Grid**
+  * https://www.ag-grid.com/
+  * npm install ag-grid-vue3
+  * https://www.ag-grid.com/vue-data-grid/getting-started/
+  * 무료인 커뮤니티 버전(ag-grid-community)은 별도로 존재
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
