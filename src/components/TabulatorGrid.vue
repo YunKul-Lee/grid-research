@@ -29,6 +29,10 @@ const frozenTable = useTemplateRef('frozen-table')
 const frozenTabulator = ref(null);
 const frozenTabulatorData = reactive([...data1])
 
+const configTable = useTemplateRef('config-table')
+const configTabulator = ref(null);
+const configTableData = reactive([...data1])
+
 onMounted(() => {
   // 기본
   basicTabulator.value = new Tabulator(basicTable.value, {
@@ -73,11 +77,40 @@ onMounted(() => {
     ]
   })
 
+  /**
+   * 틀고정
+   * - 컬럼 틀고정 : 기준이 되는 column 속성에 frozen: true 추가
+   * - 로우 틀고정 : frozenRows 속성에 틀고정 할 라인의 수를 지정
+   */
   frozenTabulator.value = new Tabulator(frozenTable.value, {
-    height: '300px',
+    height: '200px',
+    // frozenRows:1,
     data: frozenTabulatorData,
     columns: [
       {title:"Name", field:"name", frozen: true},
+      {title:"Progress", field:"progress", sorter:"number"},
+      {title:"Gender", field:"gender"},
+      {title:"Rating", field:"rating"},
+      {title:"Favourite Color", field:"col"},
+      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
+    ]
+  })
+
+  /**
+   * 설정 개인화
+   * persistence 속성으로 개인화 설정 추가
+   */
+  configTabulator.value = new Tabulator(configTable.value, {
+    height: '200px',
+    persistence: {
+      sort: true,
+      filter: true,
+      columns: true
+    },
+    movableColumns: true,   // 컬럼 위치 변경
+    data: configTableData,
+    columns: [
+      {title:"Name", field:"name"},
       {title:"Progress", field:"progress", sorter:"number"},
       {title:"Gender", field:"gender"},
       {title:"Rating", field:"rating"},
@@ -101,6 +134,9 @@ onMounted(() => {
     <h2>틀고정</h2>
     <div ref="frozen-table"></div>
     <hr />
+
+    <h2>설정 개인화</h2>
+    <div ref="config-table"></div>
   </div>
 </template>
 
