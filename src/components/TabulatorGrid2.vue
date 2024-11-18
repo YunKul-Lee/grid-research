@@ -1,0 +1,142 @@
+<script setup lang="ts">
+import { useTemplateRef, ref, reactive, onMounted } from 'vue';
+import { TabulatorFull as Tabulator } from 'tabulator-tables';
+import 'tabulator-tables/dist/css/tabulator.css'
+
+// 샘플 데이터
+const data1 = [
+  {"name": 'Arnulfo Hettinger', "progress": 57, "gender": "female", "rating": "5", "col": "violet", "dob": "16/10/2024"},
+  {"name": 'Watson Greenholt', "progress": 86, "gender": "male", "rating": "5", "col": "yellow", "dob": "30/07/2024"},
+  {"name": 'Adolphus Volkman', "progress": 43, "gender": "male", "rating": "4", "col": "indigo", "dob": "15/07/2024"},
+  {"name": 'Hayley Spinka', "progress": 86, "gender": "female", "rating": "2", "col": "silver", "dob": "05/04/2024"},
+  {"name": 'Yvette Walker', "progress": 67, "gender": "female", "rating": "5", "col": "azure", "dob": "03/01/2024"},
+  {"name": 'Keagan Davis', "progress": 64, "gender": "male", "rating": "5", "col": "ivory", "dob": "19/06/2024"},
+  {"name": 'Anastasia Towne', "progress": 3, "gender": "female", "rating": "1", "col": "lavender", "dob": "12/05/2024"},
+  {"name": 'Dr. Serena White', "progress": 32, "gender": "female", "rating": "5", "col": "violet", "dob": "14/04/2024"},
+  {"name": 'Casper Gottlieb', "progress": 38, "gender": "female", "rating": "2", "col": "yellow", "dob": "10/06/2024"}
+]
+
+// const table = ref(null);
+const basicTable = useTemplateRef('basic-table')
+const basicTabulator = ref(null);
+const basicTableData = reactive([...data1]);
+
+const fitDataFillTable = useTemplateRef('fit-data-fill-table');
+const fitDataFillTableTabulator = ref(null);
+const fitDataFillTableData = reactive([...data1])
+
+const frozenTable = useTemplateRef('frozen-table')
+const frozenTabulator = ref(null);
+const frozenTabulatorData = reactive([...data1])
+
+const configTable = useTemplateRef('config-table')
+const configTabulator = ref(null);
+const configTableData = reactive([...data1])
+
+onMounted(() => {
+  // 기본
+  basicTabulator.value = new Tabulator(basicTable.value, {
+    height: '200px',
+    data: basicTableData,
+    reactiveData: true,
+    columns: [
+      {title:"Name", field:"name"},
+      {title:"Progress", field:"progress", sorter:"number"},
+      {title:"Gender", field:"gender"},
+      {title:"Rating", field:"rating"},
+      {title:"Favourite Color", field:"col"},
+      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
+    ]
+  })
+
+  // 비어있는 컬럼 빈 값으로 채우기
+  //
+  //
+  /**
+   * [ layout ] 속성
+   * - fitDataFill : 데이터에 맞게 컬럼 표현
+   * - fitDataStretch : 마지막 컬럼의 길이를 늘려 화면을 채움
+   * - fitDataTable : 그리드 크기가 데이터에 맞게 리사이즈
+   * - fitColumns : 컨테이너 width 에 맞게 가로길이 조정
+   *
+   * [ responsiveLayout ] 속성
+   * - hide : window 크기를 조절함에 따라 사이즈를 초과하는 컬럼은 숨김처리
+   */
+  fitDataFillTableTabulator.value = new Tabulator(fitDataFillTable.value, {
+    layout: "fitDataFill",
+    height: '300px',
+    data: fitDataFillTableData,
+    reactiveData: true,
+    columns: [
+      {title:"Name", field:"name"},
+      {title:"Progress", field:"progress", sorter:"number"},
+      {title:"Gender", field:"gender"},
+      {title:"Rating", field:"rating"},
+      {title:"Favourite Color", field:"col"},
+      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
+    ]
+  })
+
+  /**
+   * 틀고정
+   * - 컬럼 틀고정 : 기준이 되는 column 속성에 frozen: true 추가
+   * - 로우 틀고정 : frozenRows 속성에 틀고정 할 라인의 수를 지정
+   */
+  frozenTabulator.value = new Tabulator(frozenTable.value, {
+    height: '200px',
+    // frozenRows:1,
+    data: frozenTabulatorData,
+    columns: [
+      {title:"Name", field:"name", frozen: true},
+      {title:"Progress", field:"progress", sorter:"number"},
+      {title:"Gender", field:"gender"},
+      {title:"Rating", field:"rating"},
+      {title:"Favourite Color", field:"col"},
+      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
+    ]
+  })
+
+  /**
+   * 설정 개인화
+   * persistence 속성으로 개인화 설정 추가
+   */
+  configTabulator.value = new Tabulator(configTable.value, {
+    height: '200px',
+    persistence: {
+      sort: true,
+      filter: true,
+      columns: true
+    },
+    movableColumns: true,   // 컬럼 위치 변경
+    data: configTableData,
+    columns: [
+      {title:"Name", field:"name"},
+      {title:"Progress", field:"progress", sorter:"number"},
+      {title:"Gender", field:"gender"},
+      {title:"Rating", field:"rating"},
+      {title:"Favourite Color", field:"col"},
+      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
+    ]
+  })
+})
+</script>
+
+<template>
+  <div>
+    <h2>Basic</h2>
+    <div ref="basic-table"></div>
+    <hr />
+
+    <h2>Layout</h2>
+    <div ref="fit-data-fill-table"></div>
+    <hr />
+
+    <h2>틀고정</h2>
+    <div ref="frozen-table"></div>
+    <hr />
+
+    <h2>설정 개인화</h2>
+    <div ref="config-table"></div>
+  </div>
+</template>
+

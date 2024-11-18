@@ -2,6 +2,7 @@
 import { useTemplateRef, ref, reactive, onMounted } from 'vue';
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.css'
+import * as events from "node:events";
 
 // 샘플 데이터
 const data1 = [
@@ -21,96 +22,35 @@ const basicTable = useTemplateRef('basic-table')
 const basicTabulator = ref(null);
 const basicTableData = reactive([...data1]);
 
-const fitDataFillTable = useTemplateRef('fit-data-fill-table');
-const fitDataFillTableTabulator = ref(null);
-const fitDataFillTableData = reactive([...data1])
-
-const frozenTable = useTemplateRef('frozen-table')
-const frozenTabulator = ref(null);
-const frozenTabulatorData = reactive([...data1])
-
-const configTable = useTemplateRef('config-table')
-const configTabulator = ref(null);
-const configTableData = reactive([...data1])
+const printIcon = function(cell: object, formatterParams: object) {
+  console.log(cell, formatterParams);
+  return "<i class='fa fa-print'></i>";
+}
 
 onMounted(() => {
   // 기본
   basicTabulator.value = new Tabulator(basicTable.value, {
-    height: '200px',
-    data: basicTableData,
+    layout: 'fitDataTable',     // 컨터이너 영역에 그리드 채우기
+    height: '200px',            // 그리드 높이
+    data: basicTableData,       // 바인딩 데이터
+    placeholder:"조회된 데이터가 없습니다.",   //
     reactiveData: true,
-    columns: [
-      {title:"Name", field:"name"},
-      {title:"Progress", field:"progress", sorter:"number"},
-      {title:"Gender", field:"gender"},
-      {title:"Rating", field:"rating"},
-      {title:"Favourite Color", field:"col"},
-      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
-    ]
-  })
-
-  // 비어있는 컬럼 빈 값으로 채우기
-  //
-  //
-  /**
-   * [ layout ] 속성
-   * - fitDataFill : 데이터에 맞게 컬럼 표현
-   * - fitDataStretch : 마지막 컬럼의 길이를 늘려 화면을 채움
-   * - fitDataTable : 그리드 크기가 데이터에 맞게 리사이즈
-   * - fitColumns : 컨테이너 width 에 맞게 가로길이 조정
-   *
-   * [ responsiveLayout ] 속성
-   * - hide : window 크기를 조절함에 따라 사이즈를 초과하는 컬럼은 숨김처리
-   */
-  fitDataFillTableTabulator.value = new Tabulator(fitDataFillTable.value, {
-    layout: "fitDataFill",
-    height: '300px',
-    data: fitDataFillTableData,
-    reactiveData: true,
-    columns: [
-      {title:"Name", field:"name"},
-      {title:"Progress", field:"progress", sorter:"number"},
-      {title:"Gender", field:"gender"},
-      {title:"Rating", field:"rating"},
-      {title:"Favourite Color", field:"col"},
-      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
-    ]
-  })
-
-  /**
-   * 틀고정
-   * - 컬럼 틀고정 : 기준이 되는 column 속성에 frozen: true 추가
-   * - 로우 틀고정 : frozenRows 속성에 틀고정 할 라인의 수를 지정
-   */
-  frozenTabulator.value = new Tabulator(frozenTable.value, {
-    height: '200px',
-    // frozenRows:1,
-    data: frozenTabulatorData,
-    columns: [
-      {title:"Name", field:"name", frozen: true},
-      {title:"Progress", field:"progress", sorter:"number"},
-      {title:"Gender", field:"gender"},
-      {title:"Rating", field:"rating"},
-      {title:"Favourite Color", field:"col"},
-      {title:"Date Of Birth", field:"dob", hozAlign:"center"},
-    ]
-  })
-
-  /**
-   * 설정 개인화
-   * persistence 속성으로 개인화 설정 추가
-   */
-  configTabulator.value = new Tabulator(configTable.value, {
-    height: '200px',
+    // 설정 개인화
+    // 전체 설정을 키거나, 개별설정을 줄 수 있음
+    // persistence: true,
     persistence: {
       sort: true,
       filter: true,
+      headerFilter: true,
+      group: true,
+      page: true,
       columns: true
     },
     movableColumns: true,   // 컬럼 위치 변경
-    data: configTableData,
+    // 컬럼설정
     columns: [
       {title:"Name", field:"name"},
+      {formatter: printIcon, width:40, hozAlign:"center", cellClick:function(e: events, cell: any){alert("Printing row data for: " + cell.getRow().getData().name)}},
       {title:"Progress", field:"progress", sorter:"number"},
       {title:"Gender", field:"gender"},
       {title:"Rating", field:"rating"},
@@ -123,20 +63,41 @@ onMounted(() => {
 
 <template>
   <div>
-    <h2>Basic</h2>
-    <div ref="basic-table"></div>
+    <h2>Tabulator 샘플</h2>
+    <div id="basic-table" ref="basic-table"></div>
     <hr />
 
-    <h2>Layout</h2>
-    <div ref="fit-data-fill-table"></div>
-    <hr />
-
-    <h2>틀고정</h2>
-    <div ref="frozen-table"></div>
-    <hr />
-
-    <h2>설정 개인화</h2>
-    <div ref="config-table"></div>
   </div>
 </template>
 
+<style scoped>
+/*Theme the Tabulator element*/
+#basic-table {
+  background-color:#ccc;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+/*Theme the header*/
+#basic-table .tabulator-header {
+  background-color:#333;
+  color:#fff;
+}
+
+/*Allow column header names to wrap lines*/
+#basic-table .tabulator-header .tabulator-col,
+#basic-table .tabulator-header .tabulator-col-row-handle {
+  white-space: normal;
+}
+
+/*Color the table rows*/
+#basic-table .tabulator-tableholder .tabulator-table .tabulator-row{
+  color:#fff;
+  background-color: #666;
+}
+
+/*Color even rows*/
+#basic-table .tabulator-tableholder .tabulator-table .tabulator-row:nth-child(even) {
+  background-color: #444;
+}
+</style>
