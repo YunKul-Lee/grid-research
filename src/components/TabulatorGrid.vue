@@ -2,7 +2,6 @@
 import { useTemplateRef, ref, reactive, onMounted } from 'vue';
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.css'
-import * as events from "node:events";
 
 // 샘플 데이터
 const data1 = [
@@ -50,7 +49,7 @@ onMounted(() => {
     // 컬럼설정
     columns: [
       {title:"Name", field:"name"},
-      {formatter: printIcon, width:40, hozAlign:"center", cellClick:function(e: events, cell: any){alert("Printing row data for: " + cell.getRow().getData().name)}},
+      {formatter: printIcon, width:40, hozAlign:"center", cellClick:function(e: Event, cell: any){alert("Printing row data for: " + cell.getRow().getData().name)}},
       {title:"Progress", field:"progress", sorter:"number"},
       {title:"Gender", field:"gender"},
       {title:"Rating", field:"rating"},
