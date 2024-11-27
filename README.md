@@ -9,11 +9,10 @@ Vue3 에서 사용할 그리드 컴포넌트 적용 & 판단하기
   * npm install tabulator-tables --save
   * https://tabulator.info/docs/6.3
 
-* **AG Grid**
-  * https://www.ag-grid.com/
-  * npm install ag-grid-vue3
-  * https://www.ag-grid.com/vue-data-grid/getting-started/
-  * 무료인 커뮤니티 버전(ag-grid-community)은 별도로 존재
+* **Primevue**
+  * https://primevue.org/
+  * npm install primevue @primevue/themes
+  * https://primevue.org/vite/
 
 ## 필수 확인사항
 
@@ -22,3 +21,4 @@ Vue3 에서 사용할 그리드 컴포넌트 적용 & 판단하기
 * 멀티 정렬
 * 개인 설정정보 저장
 * 커스텀 테마
+* 컬럼 영역에 vue template 적용
