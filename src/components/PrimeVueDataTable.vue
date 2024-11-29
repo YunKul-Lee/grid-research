@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-import DataTable from 'primevue/datatable';
+import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+
+import IconField from 'primevue/iconfield'
+import InputIcon from 'primevue/inputicon'
 
 const products = ref()
 
@@ -44,6 +47,8 @@ const data = [
   },
 ]
 
+const value1 = ref(null);
+const value2 = ref(null);
 
 onMounted(() => {
   products.value = data
@@ -60,6 +65,4 @@ onMounted(() => {
   </DataTable>
 </template>
 
-<style scoped>
 
-</style>

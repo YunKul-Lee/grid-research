@@ -9,6 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <ul class="nav-menu">
           <li><RouterLink to="/">Tabulator</RouterLink></li>
           <li><RouterLink to="/primeVue">PrimeVue</RouterLink></li>
+          <li><RouterLink to="/iconField">IconField</RouterLink></li>
         </ul>
       </nav>
     </div>
