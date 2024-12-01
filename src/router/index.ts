@@ -15,7 +15,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/PrimeVueView.vue'),
+      component: () => import(/* @ts-ignore*/'../views/PrimeVueView.vue'),
     },
     {
       path: '/IconField',
